@@ -281,6 +281,7 @@ return [
                     'text'        => 'Usuarios',
                     'url'         => '/usuarios',
                     'icon'        => 'fas fa-users fa-fw',
+                    // 'can'         =>  'VER SEGURIDAD'
                     
                 ],
                 
