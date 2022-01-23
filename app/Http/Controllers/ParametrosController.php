@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Parametro;
 use Illuminate\Http\Request;
 
 class ParametrosController extends Controller
@@ -13,8 +14,8 @@ class ParametrosController extends Controller
      */
     public function index()
     {
-        // return "Parametro Index";
-        return view('seguridad.parametros.index');
+        $parametros = Parametro::all();
+        return view('seguridad.parametros.index')->with('parametros',$parametros);
     }
 
     /**
@@ -24,7 +25,7 @@ class ParametrosController extends Controller
      */
     public function create()
     {
-        //
+        return view('seguridad.parametros.create');
     }
 
     /**
@@ -35,7 +36,19 @@ class ParametrosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'parametro' => 'required|unique:parametros',
+            'valor' => 'required',
+        ]);
+        
+        $data = [
+            'parametro' => $request->parametro,
+            'valor' => $request->valor,
+            'Creado_Por' => Auth()->user()->id,
+        ];
+        Parametro::create($data);
+
+        return redirect()->route('parametros.index')->with('info', 'Parametro creado.');
     }
 
     /**
@@ -57,7 +70,8 @@ class ParametrosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $parametro  =   Parametro::find($id);
+        return view('seguridad.parametros.edit')->with('parametro',$parametro);
     }
 
     /**
@@ -69,7 +83,18 @@ class ParametrosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+
+            'parametro' => "required|unique:parametros,parametro,{$id}",
+            'valor'     => "required",
+        ]);
+
+        $parametro  = Parametro::find($id);
+
+        $parametro->update($request->all());
+
+        return redirect()->route('parametros.index')->with('info', 'Parametro actualizado.');
+       
     }
 
     /**

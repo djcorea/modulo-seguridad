@@ -5,156 +5,68 @@
 @section('title', 'Objetos')
 
 @section('content_header')
-    <h1 class="text-center">Objetos</h1>
-    <hr class="bg-dark border-1 border-top border-dark">
+<h1 class="text-center">Objetos</h1>
+<hr class="bg-dark border-1 border-top border-dark">
 @stop
 @section('content')
 
 
-<a  href="{{route('objetos.create')}}" 
-    class="btn btn-outline-info text-center btn-block">
-    <span class="mr-2">Crear Nuevo Objeto   </span> <i class="fas fa-plus-square"></i>
+<a href="{{route('objetos.create')}}" class="btn btn-outline-info text-center btn-block">
+    <span class="mr-2">Crear Nuevo Objeto </span> <i class="fas fa-plus-square"></i>
 </a>
 
 
 @if (session('info'))
-<div class="alert alert-success">
-    <strong>
-        {{session('info')}}
-    </strong>
+@if (session('info'))
+<div class="alert alert-success alert-dismissible mt-2 text-dark" role="alert">
+  <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  <strong>{{session('info')}}</strong>
 </div>
+@endif
 @endif
 
 <div class="table-responsive-sm mt-5">
-<table id="tablaR" class="table table-striped table-bordered table-condensed table-hover" cellspacing="0"
-            cellpadding="0" width="100%">
-            <thead class="thead-dark">
-                <tr class="text-center">
+    <table id="tablaR" class="table table-striped table-bordered table-condensed table-hover" cellspacing="0" cellpadding="0" width="100%">
+        <thead class="thead-dark">
+            <tr class="text-center">
                 <th scope="col" width="30"># </th>
-            <th scope="col">Nombre</th>
-                    <th width="100">Opciones</th>
-                </tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th width="100">Opciones</th>
+            </tr>
 
-            </thead>
-            <tbody>
-                @php $i=1;@endphp
-                <tr class="text-center">
-                    <td>{{$i}}</td>
-                    <td >USUARIO</td>
-                
-                    <td width="100">
+        </thead>
+        <tbody>
 
-                        <form action="{{route('objetos.destroy', 1)}}" method="POST">
-                            <a href="{{route('objetos.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
-                            <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
-                        </form>
-                    </td>
-                </tr>
-                <tr class="text-center">
-                    <td>{{$i}}</td>
-                    <td >USUARIO</td>
-                
-                    <td width="100">
+            @php $i=1;@endphp
+            @foreach($objetos as $objeto)
+            <tr class="text-center">
+                <td>
 
-                        <form action="{{route('objetos.destroy', 1)}}" method="POST">
-                            <a href="{{route('objetos.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
-                            <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
-                        </form>
-                    </td>
-                </tr>
-                <tr class="text-center">
-                    <td>{{$i}}</td>
-                    <td >USUARIO</td>
-                
-                    <td width="100">
+                    {{$i}}
+                </td>
+                <td>{{$objeto->objeto}}</td>
+                <td>{{$objeto->Descripcion}}</td>
+                <td width="100">
 
-                        <form action="{{route('objetos.destroy', 1)}}" method="POST">
-                            <a href="{{route('objetos.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
-                            <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
-                        </form>
-                    </td>
-                </tr>
-                <tr class="text-center">
-                    <td>{{$i}}</td>
-                    <td >USUARIO</td>
-                
-                    <td width="100">
+                    <form action="{{route('objetos.destroy', $objeto->id)}}" method="POST">
+                        <a href="{{route('objetos.edit', $objeto->id)}}" class="btn btn-warning btn-sm fa fa-edit "></a>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
+                        <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
+                    </form>
+                </td>
 
-                        <form action="{{route('objetos.destroy', 1)}}" method="POST">
-                            <a href="{{route('objetos.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
-                            <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
-                        </form>
-                    </td>
-                </tr>
-                <tr class="text-center">
-                    <td>{{$i}}</td>
-                    <td >USUARIO</td>
-                
-                    <td width="100">
+            </tr>
+            @php $i++;@endphp
+            @endforeach
 
-                        <form action="{{route('objetos.destroy', 1)}}" method="POST">
-                            <a href="{{route('objetos.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
-                            <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
-                        </form>
-                    </td>
-                </tr>
-                <tr class="text-center">
-                    <td>{{$i++}}</td>
-                    <td >USUARIO</td>
-                
-                    <td width="100">
 
-                        <form action="{{route('objetos.destroy', 1)}}" method="POST">
-                            <a href="{{route('objetos.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
-                            <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
-                        </form>
-                    </td>
-                </tr>
-                <tr class="text-center">
-                    <td>{{$i}}</td>
-                    <td >USUARIO</td>
-                
-                    <td width="100">
 
-                        <form action="{{route('objetos.destroy', 1)}}" method="POST">
-                            <a href="{{route('objetos.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
-                            <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
-                        </form>
-                    </td>
-                </tr>
-                @php $i++;@endphp
-              
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </div>
 
 @stop
@@ -186,8 +98,8 @@
                 {
                     extend: 'pdf',
                     className: 'btn btn-danger glyphicon glyphicon-duplicate',
-                   
-                }, 
+
+                },
                 {
                     extend: 'print',
                     text: 'Imprimir',

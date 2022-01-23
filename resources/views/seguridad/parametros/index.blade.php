@@ -11,8 +11,7 @@
 @stop
 
 @section('content')
-
-
+                    
 <a  href="{{route('parametros.create')}}" 
     class="btn btn-outline-info text-center btn-block">
     <span class="mr-2">Crear Nuevo Parametro</span> <i class="fas fa-plus-square"></i>
@@ -20,10 +19,9 @@
 
 
 @if (session('info'))
-<div class="alert alert-success">
-    <strong>
-        {{session('info')}}
-    </strong>
+<div class="alert alert-success alert-dismissible mt-2 text-dark" role="alert">
+  <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  <strong>{{session('info')}}</strong>
 </div>
 @endif
 
@@ -41,23 +39,23 @@
             </thead>
             <tbody>
                 @php $i=1;@endphp
+                @foreach ($parametros as $parametro)
                 <tr class="text-center">
-                    <td>{{$i}}</td>
-                    <td >USUARIO</td>
-                
-                    <td class="text-success"> ACTIVO</td>
-                    <!-- <td class="text-danger">INACTIVO</td> -->
-                    <td width="100">
+                    <td>
 
-                        <form action="{{route('parametros.destroy', 1)}}" method="POST">
-                            <a href="{{route('parametros.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                        </form>
+                    {{ $i }}
+                    </td>
+                    <td>{{ $parametro->parametro }} </td>
+                    <td>{{ $parametro->valor }} </td>
+                    <td>
+                    <a href="{{ route('parametros.edit', $parametro->id) }}"
+                        class="btn btn-warning btn-sm fa fa-edit""></a>
+
                     </td>
                 </tr>
                 @php $i++;@endphp
-              
-
+                @endforeach
+                
             </tbody>
         </table>
 </div>

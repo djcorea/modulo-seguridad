@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Objeto;
 use Illuminate\Http\Request;
 
 class ObjetosController extends Controller
@@ -13,8 +14,9 @@ class ObjetosController extends Controller
      */
     public function index()
     {
-        // return "Objeto Index";
-        return view('seguridad.objetos.index');
+        $objetos=Objeto::all();
+        // dd($objetos);
+        return view('seguridad.objetos.index',compact('objetos'));
     }
 
     /**
@@ -24,7 +26,7 @@ class ObjetosController extends Controller
      */
     public function create()
     {
-        //
+        return view('seguridad.objetos.create');
     }
 
     /**
@@ -35,7 +37,21 @@ class ObjetosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'objeto'        =>  "required|unique:objetos|min:1|max:255",
+            'descripcion'   =>  "required|max:255"
+        ]);
+        
+        $data=[
+            'objeto'        =>  $request->objeto,
+            'descripcion'   =>  $request->descripcion,
+            'Creado_Por' => Auth()->user()->id,
+        ];
+
+        Objeto::create($data);
+
+        return redirect()->route('objetos.index')->with('info', 'Objeto creado.');
     }
 
     /**
@@ -57,7 +73,8 @@ class ObjetosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $objeto=Objeto::find($id);
+        return view('seguridad.objetos.edit')->with('objeto',$objeto);
     }
 
     /**
@@ -69,7 +86,18 @@ class ObjetosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            
+            'objeto'        => "required|unique:objetos,objeto,{$id}",
+            'descripcion'   => "required",
+        ]);
+        
+
+        $objeto  = Objeto::find($id);
+
+        $objeto->update($request->all());
+        return redirect()->route('objetos.index')->with('info', 'Objeto actualizado.');
+       
     }
 
     /**
@@ -80,6 +108,11 @@ class ObjetosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $objeto = Objeto::find($id);
+
+        $objeto->delete();
+
+        return redirect()->route('objetos.index')->with('info', 'Objeto Eliminado.');
+       
     }
 }
