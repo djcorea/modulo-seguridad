@@ -20,10 +20,9 @@
 
 
 @if (session('info'))
-<div class="alert alert-success">
-    <strong>
-        {{session('info')}}
-    </strong>
+<div class="alert alert-success alert-dismissible mt-2 text-dark" role="alert">
+  <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  <strong>{{session('info')}}</strong>
 </div>
 @endif
 
@@ -39,26 +38,20 @@
 
             </thead>
             <tbody>
+
+                @foreach ($preguntas as $pregunta)
                 @php $i=1;@endphp
                 <tr class="text-center">
                     <td>{{$i}}</td>
-                    <td style="text-transform:uppercase">USUARIO</td>
+                    <td style="text-transform:uppercase">{{$pregunta->pregunta}}</td>
                 
                     <td width="100">
-
-                        <form action="{{route('preguntas.destroy', 1)}}" method="POST">
-                            <a href="{{route('preguntas.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
-                            <!-- <button type="submit" class="btn  btn-success btn-sm fas fa-check-circle"></button> -->
-                        </form>
+                        <a href="{{route('preguntas.edit', $pregunta->id)}}"
+                        class="btn btn-warning btn-sm fa fa-edit "></a>
                     </td>
                 </tr>
                 @php $i++;@endphp
-              
-
+                @endforeach
             </tbody>
         </table>
 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Objeto;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class ObjetosController extends Controller
 {
@@ -36,7 +37,7 @@ class ObjetosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $request->validate([
 
             'objeto'        =>  "required|unique:objetos|min:1|max:255",
@@ -50,6 +51,16 @@ class ObjetosController extends Controller
         ];
 
         Objeto::create($data);
+
+        $permisos=[
+            'VER_'.$request->objeto,
+            'INSERTAR_'.$request->objeto,
+            'EDITAR_'.$request->objeto,
+            'ELIMINAR_'.$request->objeto,
+        ];
+        foreach ($permisos as $permiso) {
+            Permission::create(['name'=>$permiso,'guard_name'=>'web']);
+        }
 
         return redirect()->route('objetos.index')->with('info', 'Objeto creado.');
     }

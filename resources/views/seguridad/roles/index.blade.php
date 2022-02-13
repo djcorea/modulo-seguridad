@@ -19,10 +19,9 @@
 
 
 @if (session('info'))
-<div class="alert alert-success">
-    <strong>
-        {{session('info')}}
-    </strong>
+<div class="alert alert-success alert-dismissible mt-2 text-dark" role="alert">
+  <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+  <strong>{{session('info')}}</strong>
 </div>
 @endif
 
@@ -33,24 +32,21 @@
                 <tr class="text-center">
                     <th scope="col" width="30"># </th>
                     <th>Nombre de rol</th>
-                    <th>Estado</th>
                     <th width="100">Opciones</th>
                 </tr>
 
             </thead>
             <tbody>
-                @php $i=1;@endphp
+            @php $i=1;@endphp
+                @foreach ($roles as $rol)
                 <tr class="text-center">
-                    <td>{{$i}}</td>
-                    <td >USUARIO</td>
-                
-                    <td class="text-success"> ACTIVO</td>
+                    <td>{{ $i }}</td>
+                    <td>{{ $rol->name }} </td>
                     <!-- <td class="text-danger">INACTIVO</td> -->
                     <td width="100">
 
-                        <form action="{{route('roles.destroy', 1)}}" method="POST">
-                            <a href="{{route('roles.edit', 1)}}"
-                                class="btn btn-warning btn-sm fa fa-edit "></a>
+                        <form action="{{route('roles.destroy', $rol->id)}}" method="POST">
+                            <a href="{{route('roles.edit', $rol->id)}}" class="btn btn-warning btn-sm fa fa-edit "></a>
                             @csrf
                             @method('DELETE')
                             <button type="submit" class=" btn btn-danger btn-sm  fa fa-times-circle"></button>
@@ -58,7 +54,9 @@
                         </form>
                     </td>
                 </tr>
+
                 @php $i++;@endphp
+                @endforeach
               
 
             </tbody>
